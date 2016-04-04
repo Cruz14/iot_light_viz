@@ -129,6 +129,10 @@ div.tooltip {
   fill:#b2b2b2
 }
 
+.minConsum,.maxConsum,.minMotion,.maxMotion{
+  fill: #f2f2f2;
+}
+
 @import "loaders.scss";
 
 .loader{
@@ -137,4 +141,5 @@ div.tooltip {
   text-align: center;
   padding-top: 150px;
 }
+
 

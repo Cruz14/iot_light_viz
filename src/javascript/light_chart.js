@@ -65,6 +65,17 @@ function init(query,data, min_max,firstQuery) {
     createSymbology(svg, min_max)
   }
 
+  d3.selectAll(".minMotion")
+    .text(min_max.min_motion)
+  d3.selectAll(".maxMotion")
+    .text(min_max.max_motion)
+
+  d3.selectAll(".minConsum")
+    .text(min_max.min_wats.toFixed(2))
+  d3.selectAll(".maxConsum")
+    .text(min_max.max_wats.toFixed(2))
+
+
   var x = d3.scaleTime()
     .domain([new Date(data[0].time), new Date(data[data.length - 1].time)])
     .range([0, width]);
@@ -92,7 +103,7 @@ function init(query,data, min_max,firstQuery) {
       .attr("class", "chartCont")
       .attr("x", 40)
 
-   hideLoader()
+  hideLoader()
       
   chartCont.append("g")
       .attr("class", "x axis")
@@ -181,6 +192,14 @@ function createSymbology(svg){
     .attr("x",400)
     .attr("class","howToTittle")
     .text("MOTION SENSING:")
+  motionSensing.append("text")
+    .attr("x",400)
+    .attr("y", 60)
+    .attr("class","minMotion")
+  motionSensing.append("text")
+    .attr("x",630)
+    .attr("y", 60)
+    .attr("class","maxMotion")
   var motionSymbology = motionSensing.append("g")
     .attr("x",400)
 
@@ -215,6 +234,14 @@ function createSymbology(svg){
     .attr("x",720)
     .attr("class","howToTittle")
     .text("CONSUMPTION:")
+  consumptionCont.append("text")
+    .attr("x",720)
+    .attr("y", 60)
+    .attr("class","minConsum")
+  consumptionCont.append("text")
+    .attr("x",880)
+    .attr("y", 60)
+    .attr("class","maxConsum")
   var consumptionSymbology = consumptionCont.append("g")
     .attr("x",720)
 
@@ -224,9 +251,11 @@ function createSymbology(svg){
     .enter().append("circle")
       .style("opacity", 0)
       .attr("cx",function(d,i){ return xConsumptionPos(i) + 730 })
-      .attr("cy", 35)
-      .attr("r", function(d,i){ return xConsumption(d.num)})
-      .style("fill", "#fdd49e")
+      .attr("cy", function(d,i){ return 35 - (i * 3 )})
+      .attr("r", function(d,i){ return xConsumption(d.num) })
+      .style("fill", "#363f49")
+      .style("stroke", "#f2f2f2")
+      // .style("opacity",0)
       .on("mouseover", function(d,i) {
             d3.selectAll(".dot")
               .transition()
