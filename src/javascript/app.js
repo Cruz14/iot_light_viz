@@ -6,7 +6,7 @@ window.d3= d3;
 var Data = require('./data');
 
 // Run Aplication
-Data.initQuery();
+Data.initQuery(true);
 
 function toggleActiveChart(){
   var links = document.getElementsByClassName('nav_item');
@@ -20,9 +20,9 @@ function toggleActiveChart(){
           .style("opacity","0")
           .on("end",function(){
             d3.selectAll(".svg_chart").remove();
-            d3.selectAll(".svg_symbology").remove();
+            // d3.selectAll(".svg_symbology").remove();
           });
-        Data._3dQuery();
+        Data._3dQuery(false);
       }
       if (time == "_24h") {
         console.log("newQuery_24h")
@@ -31,9 +31,9 @@ function toggleActiveChart(){
           .style("opacity","0")
           .on("end",function(){
             d3.selectAll(".svg_chart").remove();
-            d3.selectAll(".svg_symbology").remove();
+            // d3.selectAll(".svg_symbology").remove();
           });
-        Data._3dQuery();
+        Data._3dQuery(false);
       }
     }
   }

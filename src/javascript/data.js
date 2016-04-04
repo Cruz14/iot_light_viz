@@ -19,7 +19,9 @@ var max_min = {
 	min_wats:0,
 	max_wats:0,
 	min_motion:0,
-	max_motion:0
+	max_motion:0,
+	sum_wats:0,
+	mean_brightness:0
 };
 // 
 var minMotionValue = 0;
@@ -27,6 +29,11 @@ var maxMotionValue = 0;
 // 
 var minWatsValue = 0;
 var maxWatsValue = 0;
+var sumWatsValue = 0;
+var meanBrigValue = 0;
+
+var currentQuery= "";
+var firstQuery = false;
 
 function queryLight(url){
 	lightReady = false;
@@ -76,8 +83,14 @@ var calbackLight = function(XMLResult){
 	minWatsValue = minObjWats.wats;
 	var maxObjWats = _.maxBy(newArrLight, function(o) { return o.wats; })
 	maxWatsValue = maxObjWats.wats;
+	var sumObjWats = Math.round( _.sumBy(newArrLight, function(o) { return o.wats; }));
+	var meanObjBrig = Math.round( _.meanBy(newArrLight, function(o) { return o.brightness; }));
+
 	max_min.min_wats = minWatsValue;
 	max_min.max_wats = maxWatsValue;
+	max_min.sum_wats = sumObjWats;
+	max_min.mean_brightness = meanObjBrig;
+
 	run();
 }
 
@@ -134,7 +147,7 @@ function run(){
     for (var i = 0; i < newArrMotion.length; i++) {
       newArrLight[i].motion = newArrMotion[i].motion;
     }
-    lightChart.init(newArrLight,max_min);
+    lightChart.init(currentQuery,newArrLight,max_min,firstQuery);
   }
 }
 
@@ -160,22 +173,28 @@ function queryMotionInflux(){
 	});
 }
 
-var initQuery = function() {
+var initQuery = function(first) {
+	firstQuery = first;
+	currentQuery = "last 9 hours";
 	queryLight(lightURL9H);
 	queryMotion(motionURL9H);
 }
 
-var _3dQuery = function() {
+var _3dQuery = function(first) {
+	firstQuery = first;
+	currentQuery = "last 3 days";
 	queryLight(lightURL72H);
 	queryMotion(motionURL72H);
 }
 
 var _1dQuery = function() {
+	currentQuery = "last 24 hours";
 	queryLight(lightURL72H);
 	queryMotion(motionURL72H);
 }
 
 var _1wQuery = function() {
+	currentQuery = "last 9 hours";
 	queryLight(lightURL9H);
 	queryMotion(motionURL9H);
 }
