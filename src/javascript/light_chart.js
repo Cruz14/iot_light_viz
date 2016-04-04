@@ -61,6 +61,10 @@ function init(query,data, min_max,firstQuery) {
   d3.select("#current_query")
     .html(query)
 
+  if (firstQuery) {
+    createSymbology(svg, min_max)
+  }
+
   var x = d3.scaleTime()
     .domain([new Date(data[0].time), new Date(data[data.length - 1].time)])
     .range([0, width]);
@@ -84,13 +88,11 @@ function init(query,data, min_max,firstQuery) {
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  if (firstQuery) {
-    createSymbology(svg, min_max)
-  }
-
   var chartCont = svg.append("g")
       .attr("class", "chartCont")
       .attr("x", 40)
+
+   hideLoader()
       
   chartCont.append("g")
       .attr("class", "x axis")
@@ -182,8 +184,6 @@ function createSymbology(svg){
   var motionSymbology = motionSensing.append("g")
     .attr("x",400)
 
-  
-
   motionSymbology.selectAll(".bar")
       .data(colorsCodes)
     .enter().append("rect")
@@ -260,6 +260,10 @@ function mapSize(value){
     }
 }
 
+function hideLoader(){
+  d3.select('.loader')
+    .style("display", "none")
+}
 
 module.exports = {
   init: init,

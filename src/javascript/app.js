@@ -1,53 +1,59 @@
 // Declare D3 for all window
 var d3 = require('d3');
+var $ = require('jquery');
 window.d3= d3;
 
 // Require Data Controller
 var Data = require('./data');
 
 // Run Aplication
-Data.initQuery(true);
+Data._9hQuery(true);
 
 function toggleActiveChart(){
-  var links = document.getElementsByClassName('nav_item');
-  for (var i = 0; i < links.length; i++) {
-    links[i].onclick = function(e){
-      var time = e.target.dataset.time;
-      if (time == "_72h") {
-        console.log("newQuery_72h")
-        d3.selectAll(".dot")
-          .transition().duration(750)
-          .style("opacity","0")
-          .on("end",function(){
-            d3.selectAll(".svg_chart").remove();
-            // d3.selectAll(".svg_symbology").remove();
-          });
-        Data._3dQuery(false);
+  $(".nav_item").click(function(e){
+    e.preventDefault();
+    if (!$(this).hasClass('active')) {
+      $(".nav_item").removeClass('active');
+      $(this).toggleClass('active');
+      var time = $(this).data("time");
+      if (time == "_9h") {
+        console.log("newQuery_9h")
+        removeChart()
+        Data._9hQuery(false);
       }
       if (time == "_24h") {
         console.log("newQuery_24h")
-        d3.selectAll(".dot")
-          .transition().duration(750)
+        removeChart()
+        Data._1dQuery(false);
+      }
+      if (time == "_72h") {
+        console.log("newQuery_72h")
+        removeChart()
+        Data._3dQuery(false);
+      }
+      if (time == "_120h") {
+        console.log("newQuery_120h")
+        removeChart()
+        Data._5dQuery(false);
+      }
+      if (time == "_1m") {
+        console.log("newQuery_1m")
+        removeChart()
+        Data._1mQuery(false);
+      }
+    }
+  })
+}
+
+function removeChart(){
+  d3.selectAll(".dot")
+          .transition()
+          // .duration(750)
           .style("opacity","0")
           .on("end",function(){
             d3.selectAll(".svg_chart").remove();
-            // d3.selectAll(".svg_symbology").remove();
+            $('.loader').show();
           });
-        Data._3dQuery(false);
-      }
-    }
-  }
 }
-
-// function removeClassFrom(itemsClass,className){
-//   var items = document.getElementsByClassName(itemsClass);
-//   for (var i = 0; i < items.length; i++) {
-//     console.log(items[i].classList.indexOf(className))
-//     var index = items[i].classList.indexOf(className);
-//     if (index > -1) {
-//       items[i].classList.splice(index,1)
-//     }
-//   }
-// }
 
 toggleActiveChart()

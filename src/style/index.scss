@@ -1,15 +1,5 @@
-// // Base css
-// @import "base/clear.scss";
-//
-// // Dependencies
-// // @import "dependencies/bootstrap";
-//
-// // ------- Project ------- //
-// // @import "base/typography.scss";
-// // @import "variables";
-// // Sections
-// @import "sections/header.scss";
-// @import "sections/footer.scss";
+
+
 body{
   font-family: sans-serif;
   background-color: #363f49;
@@ -132,6 +122,12 @@ div.tooltip {
   fill:#f6f6f6
 }
 
+@import "loaders.scss";
 
-
+.loader{
+  display: none;
+  width: 100%;
+  text-align: center;
+  padding-top: 150px;
+}
 
