@@ -81,6 +81,7 @@ var calbackLight = function(XMLResult){
       	}
         var obj = {
           time:result[i].values[t][0],
+          timeDate: new Date(result[i].values[t][0]),
           brightness: result[i].values[t][1],
           wats: result[i].values[t][2],
           type: type,

@@ -12,7 +12,7 @@ var tooltipLigth = d3.select("body").append("div")
 
 // chart global Scales
 var y = d3.scaleLinear()
-  .domain([0,7])
+  .domain([0.5,7])
   .range([0, 300]);
 
 // symbology Scales
@@ -26,11 +26,11 @@ var xConsumption = d3.scaleLinear()
     .domain([0,4])
     .range([0, 4]);
 
-var colorsCodes = ['#4d4a44','#fef0d9','#fdd49e','#fc8d59','#e34a33','#b30000'];
+var colorsCodes = ['#939393','#fef0d9','#fdd49e','#fc8d59','#e34a33','#b30000'];
 
 function colorSelection(num){
   if (num == 0 ) {
-    return '#4d4a44';
+    return '#939393';
   }
   if (num >= 1 && num <= 30){
     return '#fef0d9';
@@ -119,7 +119,7 @@ function init(query,data, min_max,firstQuery) {
             tooltipLigth.transition()    
                 .duration(200)
                 .style("opacity", .9)
-            tooltipLigth.html( "<b>Brightness: </b>" + d.brightness.toFixed(2) + "<br/>"+ "<b>Consumption: </b>" + d.wats.toFixed(2) + " kWh" +" <br/>"+ "<b>Motion: </b>" + d.motion )
+            tooltipLigth.html("<b>On </b>" + ( d.timeDate.getMonth() + 1 ) +"/" + ( d.timeDate.getDate()) +"/"+ d.timeDate.getFullYear() + "<br/><br/>"+ "<b>Brightness: </b>" + d.brightness.toFixed(2)+ "%" + "<br/>"+ "<b>Consumption: </b>" + d.wats.toFixed(2) + " kWh" +" <br/>"+ "<b>Motion: </b>" + d.motion +" times fired")
                 .style("left", function(){
                   if (d3.event.pageX > variableWidth /2) {
                     return (d3.event.pageX - 170) + "px";
@@ -127,7 +127,7 @@ function init(query,data, min_max,firstQuery) {
                     return (d3.event.pageX) + "px";
                   }
                 })
-                .style("top", (d3.event.pageY - 70) + "px")
+                .style("top", (d3.event.pageY - 90) + "px")
             })          
     .on("mouseout", function(d) { 
         d3.selectAll(".dot")
@@ -154,7 +154,7 @@ function createSymbology(svg){
       .attr("width", width + margin.left + margin.right)
       .attr("height", 120)
       .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + 30 + "," + margin.top + ")");
 
   var howToCont = symbologyCont.append("g")
     .attr("class","howToCont")
@@ -212,18 +212,18 @@ function createSymbology(svg){
   var consumptionCont = symbologyCont.append("g")
     .attr("class","consumptionCont")
   consumptionCont.append("text")
-    .attr("x",700)
+    .attr("x",720)
     .attr("class","howToTittle")
     .text("CONSUMPTION:")
   var consumptionSymbology = consumptionCont.append("g")
-    .attr("x",700)
+    .attr("x",720)
 
   var consumptionData = [{size:"min",num:3},{size:"low",num:6},{size:"mid",num:9},{size:"max",num:12}]
   consumptionSymbology.selectAll(".dot_symbology")
       .data(consumptionData)
     .enter().append("circle")
       .style("opacity", 0)
-      .attr("cx",function(d,i){ return xConsumptionPos(i) + 700 })
+      .attr("cx",function(d,i){ return xConsumptionPos(i) + 730 })
       .attr("cy", 35)
       .attr("r", function(d,i){ return xConsumption(d.num)})
       .style("fill", "#fdd49e")
